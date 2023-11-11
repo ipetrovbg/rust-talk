@@ -24,12 +24,12 @@ functions:
     handler: bootstrap
     cargo:
       path: 'target/lambda/rust_talk_rust/bootstrap'
-    package:
-      individually: true
-      exclude:
-        - "**/**"
-      include:
-        - "package.json"
+    # package:
+    #   individually: true
+    #   exclude:
+    #     - "**/**"
+    #   include:
+    #     - "package.json"
     url:
       cors: true
 
