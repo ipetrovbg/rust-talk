@@ -42,6 +42,12 @@ functions:
     url:
       cors: true
 
+  nodeDynamodb:
+    handler: src/node_dynamodb.main
+    runtime: 'nodejs18.x'
+    url:
+      cors: true
+
   node_lambda:
     handler: src/rust_talk_node.main
     runtime: 'nodejs18.x'
