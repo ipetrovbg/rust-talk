@@ -9,7 +9,12 @@ provider:
 
 plugins:
   - cargo-lambda-serverless
-  - serverless-esbuild
+  - serverless-webpack
+
+custom:
+  webpack:
+    packager: npm
+    webpackConfig: 'webpack.config.js'
 
 package:
   individually: true
