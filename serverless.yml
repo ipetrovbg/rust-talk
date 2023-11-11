@@ -2,7 +2,6 @@ service: rust-talk
 
 provider:
   name: aws
-  runtime: provided.al2
   memorySize: 128
   versionFunctions: false
   region: eu-central-1
@@ -22,6 +21,7 @@ package:
 functions:
   rust_lambda:
     handler: bootstrap
+    runtime: provided.al2
     cargo:
       path: 'target/lambda/rust_talk_rust/bootstrap'
     url:
