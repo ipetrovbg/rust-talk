@@ -8,8 +8,7 @@ struct ResponsePayload {
 }
 
 async fn function_handler(_: Request) -> Result<Response<Body>, Error> {
-    let numbers: Vec<u64> = (0..100_000_000).collect();
-    let sum = numbers.iter().sum();
+    let sum: u64 = (0..100_000_000).collect::<Vec<u64>>().iter().sum();
 
     let response = ResponsePayload {
         message: format!("Sum of 0..100,000,000 is {}", sum),
