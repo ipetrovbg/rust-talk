@@ -3,12 +3,12 @@ use serde::Serialize;
 
 #[derive(Serialize)]
 struct ResponsePayload {
-    sum: usize,
+    sum: u64,
     message: String,
 }
 
 async fn function_handler(_: Request) -> Result<Response<Body>, Error> {
-    let numbers: Vec<usize> = (0..100_000_000).collect();
+    let numbers: Vec<u64> = (0..100_000_000).collect();
     let sum = numbers.iter().sum();
 
     let response = ResponsePayload {

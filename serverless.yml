@@ -32,6 +32,7 @@ functions:
   # Sum Lambdas
   rust_sum:
     handler: bootstrap
+    memorySize: 512
     runtime: provided.al2
     cargo:
       path: target/lambda/rust_sum/bootstrap
