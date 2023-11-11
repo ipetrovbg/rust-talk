@@ -8,12 +8,14 @@ type Response = {
 };
 
 const functionHandler = async (): Promise<Response> => {
-  let message: Response = {
-    message: "Hello Rust Talk from Node!",
-    statusCode: StatusCode.OK,
-  };
+  return new Promise((resolve) => {
+    let message: Response = {
+      message: "Hello Rust Talk from Node!",
+      statusCode: StatusCode.OK,
+    };
 
-  return message;
+    resolve(message);
+  });
 };
 
 export async function main() {
