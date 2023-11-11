@@ -36,7 +36,7 @@ async fn function_handler(_: Request) -> Result<Response<Body>, Error> {
 
     let admins: Vec<User> = match from_items(items) {
         Ok(admin_items) => admin_items,
-        Err(_) => vec![],
+        Err(_) => return Err("Error parsing items".into()),
     };
 
     let resp = Response::builder()
