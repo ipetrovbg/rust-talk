@@ -10,19 +10,17 @@ class Response {
   statusCode: StatusCode;
   body: string;
 
-  constructor(payload: ResponseModel, statusCode: StatusCode) {
+  constructor(response: ResponseModel, statusCode: StatusCode) {
     this.statusCode = statusCode;
-    this.body = JSON.stringify(payload);
+    this.body = JSON.stringify(response);
   }
 }
 
 const functionHandler = async (): Promise<Response> => {
-  return new Promise((resolve) => {
-    let message: ResponseModel = { message: "Hello Rust Talk from Node!" };
-    let response = new Response(message, StatusCode.OK);
+  let message: ResponseModel = { message: "Hello Rust Talk from Node!" };
+  let response = new Response(message, StatusCode.OK);
 
-    resolve(response);
-  });
+  return response;
 };
 
 export async function main() {
