@@ -17,5 +17,5 @@ const functionHandler = async (): Promise<Response> => {
 };
 
 export async function main() {
-  await functionHandler();
+  return await functionHandler();
 }

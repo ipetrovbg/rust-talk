@@ -13,7 +13,7 @@ async fn function_handler(_: Request) -> Result<Response<Body>, Error> {
 
     let resp = Response::builder()
         .status(StatusCode::OK)
-        .header("content-type", "application/json")
+        // .header("content-type", "application/json")
         .body(serde_json::to_string(&message)?.into())
         .map_err(Box::new)?;
 
