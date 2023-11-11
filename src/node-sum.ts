@@ -24,7 +24,7 @@ const functionHandler = async (): Promise<Response> => {
   }
 
   let message: ResponseModel = {
-    message: `Sum of 0..100,000,000 is ${sum}`,
+    message: `The sum of 0..100,000,000 is ${sum}`,
     sum,
   };
   let response = new Response(message, StatusCode.OK);

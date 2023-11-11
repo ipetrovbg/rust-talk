@@ -8,10 +8,13 @@ struct ResponsePayload {
 }
 
 async fn function_handler(_: Request) -> Result<Response<Body>, Error> {
-    let sum: u64 = (0..100_000_000).collect::<Vec<u64>>().iter().sum();
+    let mut sum: u64 = 0;
+    for i in 0..100_000_000 {
+        sum += i;
+    }
 
     let response = ResponsePayload {
-        message: format!("Sum of 0..100,000,000 is {}", sum),
+        message: format!("The sum of 0..100,000,000 is {}", sum),
         sum,
     };
 
