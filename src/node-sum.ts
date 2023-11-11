@@ -19,7 +19,7 @@ class Response {
 
 const functionHandler = async (): Promise<Response> => {
   let sum = 0;
-  for (let i = 0; i < 100_000; i++) {
+  for (let i = 0; i < 100_000_000; i++) {
     sum += i;
   }
 

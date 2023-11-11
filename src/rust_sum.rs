@@ -8,7 +8,7 @@ struct ResponsePayload {
 }
 
 async fn function_handler(_: Request) -> Result<Response<Body>, Error> {
-    let numbers: Vec<u64> = (0..100_000).collect();
+    let numbers: Vec<u64> = (0..100_000_000).collect();
     let sum: u64 = numbers.iter().sum();
 
     let response = ResponsePayload {
