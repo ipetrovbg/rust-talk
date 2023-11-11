@@ -14,7 +14,7 @@
   "devDependencies": {
     "cargo-lambda-serverless": "^0.0.3",
     "esbuild": "^0.19.5",
-    "serverless": "^3.36.0",
+    "serverless": "^3.19.0",
     "serverless-esbuild": "^1.48.5"
   }
 }

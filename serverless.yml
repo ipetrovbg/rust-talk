@@ -8,27 +8,27 @@ provider:
   region: eu-central-1
 
 plugins:
-  - serverless-esbuild
   - cargo-lambda-serverless
+  - serverless-esbuild
 
 package:
   individually: true
 
 functions:
-  hello:
+  rust_lambda:
     handler: bootstrap
     cargo:
       path: 'target/lambda/rust_talk_rust/bootstrap'
-    url:
-      cors: true
     package:
       individually: true
       exclude:
         - "**/**"
       include:
         - "package.json"
+    url:
+      cors: true
 
-  nodeHello:
+  node_lambda:
     handler: src/rust_talk_node.main
     runtime: 'nodejs18.x'
     url:
