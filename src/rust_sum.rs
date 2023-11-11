@@ -3,13 +3,13 @@ use serde::Serialize;
 
 #[derive(Serialize)]
 struct ResponsePayload {
-    sum: u128,
+    sum: usize,
     message: String,
 }
 
 async fn function_handler(_: Request) -> Result<Response<Body>, Error> {
-    let numbers: Vec<u128> = (0..100_000_000).collect();
-    let sum = numbers.iter().sum::<u128>();
+    let numbers: Vec<usize> = (0..100_000_000).collect();
+    let sum = numbers.iter().sum();
 
     let response = ResponsePayload {
         message: format!("Sum of 0..100,000,000 is {}", sum),
