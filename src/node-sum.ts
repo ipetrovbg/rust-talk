@@ -23,7 +23,10 @@ const functionHandler = async (): Promise<Response> => {
     sum += i;
   }
 
-  let message: ResponseModel = { message: `Sum of 0..100,000 is ${sum}`, sum };
+  let message: ResponseModel = {
+    message: `Sum of 0..100,000,000 is ${sum}`,
+    sum,
+  };
   let response = new Response(message, StatusCode.OK);
 
   return response;
