@@ -7,7 +7,7 @@ use lambda_http::{http::StatusCode, run, service_fn, Body, Error, Request, Respo
 use serde::{Deserialize, Serialize};
 use serde_dynamo::from_items;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize)]
 struct User {
     #[serde(rename = "userId")]
     user_id: String,
@@ -20,8 +20,9 @@ struct User {
 }
 
 #[derive(Serialize)]
-struct ResponsePayload {
+struct ErrorPayload {
     message: String,
+    error: String,
 }
 
 async fn function_handler(_: Request) -> Result<Response<Body>, Error> {
@@ -38,27 +39,12 @@ async fn function_handler(_: Request) -> Result<Response<Body>, Error> {
         .await?;
 
     let items = admin_query_response.items.unwrap_or(vec![]);
-    let admins_items: Result<Vec<User>, _> = from_items(items);
-    let builder = Response::builder();
+    let admins: Vec<User> = from_items(items)?;
 
-    let response = match admins_items {
-        Ok(admins) => builder
-            .status(StatusCode::OK)
-            .body(serde_json::to_string(&admins)?.into())
-            .map_err(Box::new)?,
-        Err(_) => {
-            let error_message = ResponsePayload {
-                message: format!("Error parsing admins"),
-            };
-
-            builder
-                .status(StatusCode::INTERNAL_SERVER_ERROR)
-                .body(serde_json::to_string(&error_message)?.into())
-                .map_err(Box::new)?
-        }
-    };
-
-    Ok(response)
+    Ok(Response::builder()
+        .status(StatusCode::OK)
+        .body(serde_json::to_string(&admins)?.into())
+        .map_err(Box::new)?)
 }
 
 #[tokio::main]
