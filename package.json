@@ -8,6 +8,9 @@
   },
   "author": "",
   "license": "ISC",
+  "scripts": {
+    "build:ts": "webpack"
+  },
   "devDependencies": {
     "@types/aws-sdk": "^2.7.0",
     "aws-sdk": "^2.1494.0",
@@ -18,7 +21,9 @@
     "serverless-webpack": "^5.13.0",
     "ts-loader": "^9.5.0",
     "typescript": "^5.2.2",
-    "webpack": "^5.89.0"
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.449.0",

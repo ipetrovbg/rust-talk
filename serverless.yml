@@ -19,16 +19,20 @@ plugins:
 custom:
   webpack:
     packager: npm
-    webpackConfig: 'webpack.config.js'
+    includeModules:
+      forceExclude:
+        - aws-sdk
+    webpackConfig: './webpack.config.js'
 
+
+package:
+  individually: true
 
 functions:
 
   rust_lambda:
     handler: bootstrap
     runtime: provided.al2
-    package:
-      individually: true
     cargo:
       path: 'target/lambda/rust_talk_rust/bootstrap'
     url:
@@ -37,8 +41,6 @@ functions:
   rust_dynamodb:
     handler: bootstrap
     runtime: provided.al2
-    package:
-      individually: true
     cargo:
       path: 'target/lambda/rust_dynamodb/bootstrap'
     url:
