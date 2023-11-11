@@ -1,4 +1,4 @@
-use lambda_http::{run, service_fn, Body, Error, Request, Response};
+use lambda_http::{http::StatusCode, run, service_fn, Body, Error, Request, Response};
 use serde::Serialize;
 
 #[derive(Serialize)]
@@ -12,11 +12,12 @@ async fn function_handler(_: Request) -> Result<Response<Body>, Error> {
     };
 
     let resp = Response::builder()
-        .status(200)
+        .status(StatusCode::OK)
         .header("content-type", "application/json")
         .body(serde_json::to_string(&message)?.into())
         .map_err(Box::new)?;
-    Ok(resp)
+
+    return Ok(resp);
 }
 
 #[tokio::main]

@@ -1,17 +1,21 @@
+enum StatusCode {
+  OK = 200,
+}
+
 type Response = {
-  statusCode: number;
+  statusCode: StatusCode;
   message: string;
 };
 
-const function_handler = async () => {
-  let message = {
+const functionHandler = async (): Promise<Response> => {
+  let message: Response = {
     message: "Hello Rust Talk from Node!",
-    statusCode: 200,
-  } as Response;
+    statusCode: StatusCode.OK,
+  };
 
   return message;
 };
 
 export async function main() {
-  await function_handler();
+  await functionHandler();
 }
