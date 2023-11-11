@@ -19,6 +19,11 @@ struct User {
     user_role: String,
 }
 
+#[derive(Serialize)]
+struct ResponsePayload {
+    message: String,
+}
+
 async fn function_handler(_: Request) -> Result<Response<Body>, Error> {
     let region_provider = RegionProviderChain::default_provider().or_else("eu-central-1");
     let config = aws_config::from_env().region(region_provider).load().await;
@@ -33,18 +38,27 @@ async fn function_handler(_: Request) -> Result<Response<Body>, Error> {
         .await?;
 
     let items = admin_query_response.items.unwrap_or(vec![]);
+    let admins_items: Result<Vec<User>, _> = from_items(items);
+    let builder = Response::builder();
 
-    let admins: Vec<User> = match from_items(items) {
-        Ok(admin_items) => admin_items,
-        Err(_) => return Err("Error parsing items".into()),
+    let response = match admins_items {
+        Ok(admins) => builder
+            .status(StatusCode::OK)
+            .body(serde_json::to_string(&admins)?.into())
+            .map_err(Box::new)?,
+        Err(_) => {
+            let error_message = ResponsePayload {
+                message: format!("Error parsing admins"),
+            };
+
+            builder
+                .status(StatusCode::INTERNAL_SERVER_ERROR)
+                .body(serde_json::to_string(&error_message)?.into())
+                .map_err(Box::new)?
+        }
     };
 
-    let resp = Response::builder()
-        .status(StatusCode::OK)
-        .body(serde_json::to_string(&admins)?.into())
-        .map_err(Box::new)?;
-
-    Ok(resp)
+    Ok(response)
 }
 
 #[tokio::main]

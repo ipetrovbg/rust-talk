@@ -28,10 +28,11 @@ class Response {
   }
 }
 
+const client = new DynamoDBClient({
+  region: "eu-central-1",
+});
+
 const functionHandler = async (): Promise<Response> => {
-  const client = new DynamoDBClient({
-    region: "eu-central-1",
-  });
   const queryInput: QueryInput = {
     TableName: "Users",
     KeyConditionExpression: "userRole = :userRole",
@@ -50,7 +51,9 @@ const functionHandler = async (): Promise<Response> => {
   const admins: ResponseModel = (queryResponse.Items ?? []).map(
     (item) => unmarshall(item) as User,
   );
+
   let response = new Response(admins, StatusCode.OK);
+
   return response;
 };
 
