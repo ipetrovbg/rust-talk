@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/aws-sdk": "^2.7.0",
+    "aws-sdk": "^2.1494.0",
     "cargo-lambda-serverless": "^0.0.3",
     "eslint": "^8.53.0",
     "serverless": "^3.19.0",
@@ -17,5 +19,9 @@
     "ts-loader": "^9.5.0",
     "typescript": "^5.2.2",
     "webpack": "^5.89.0"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.449.0",
+    "@aws-sdk/util-dynamodb": "^3.449.0"
   }
 }
