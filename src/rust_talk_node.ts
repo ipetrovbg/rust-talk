@@ -1,8 +1,17 @@
-export async function main() {
-  return {
+type Response = {
+  statusCode: number;
+  message: string;
+};
+
+const function_handler = async () => {
+  let message = {
+    message: "Hello Rust Talk from Node!",
     statusCode: 200,
-    body: JSON.stringify({
-      message: "Hello Rust Talk from Node!",
-    }),
-  };
+  } as Response;
+
+  return message;
+};
+
+export async function main() {
+  await function_handler();
 }

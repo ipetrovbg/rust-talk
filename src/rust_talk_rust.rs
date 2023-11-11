@@ -1,12 +1,20 @@
 use lambda_http::{run, service_fn, Body, Error, Request, Response};
+use serde::Serialize;
+
+#[derive(Serialize)]
+struct ResponsePayload {
+    message: String,
+}
 
 async fn function_handler(_: Request) -> Result<Response<Body>, Error> {
-    let message = format!("Hello Rust Talk from Rust!");
+    let message = ResponsePayload {
+        message: format!("Hello Rust Talk from Rust!"),
+    };
 
     let resp = Response::builder()
         .status(200)
-        .header("content-type", "text/html")
-        .body(message.into())
+        .header("content-type", "application/json")
+        .body(serde_json::to_string(&message)?.into())
         .map_err(Box::new)?;
     Ok(resp)
 }
