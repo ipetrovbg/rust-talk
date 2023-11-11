@@ -5,6 +5,12 @@ provider:
   memorySize: 128
   versionFunctions: false
   region: eu-central-1
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:Query"
+      Resource:
+        Fn::GetAtt: [UsersTable, Arn]
 
 plugins:
   - cargo-lambda-serverless
@@ -19,11 +25,20 @@ package:
   individually: true
 
 functions:
+
   rust_lambda:
     handler: bootstrap
     runtime: provided.al2
     cargo:
       path: 'target/lambda/rust_talk_rust/bootstrap'
+    url:
+      cors: true
+
+  rust_dynamodb:
+    handler: bootstrap
+    runtime: provided.al2
+    cargo:
+      path: 'target/lambda/rust_dynamodb/bootstrap'
     url:
       cors: true
 
@@ -33,3 +48,15 @@ functions:
     url:
       cors: true
 
+
+Resources:
+  UsersTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Users
+      AttributeDefinitions:
+        - AttributeName: userRole
+          AttributeType: S
+      KeySchema:
+        - AttributeName: userRole
+          KeyType: HASH
