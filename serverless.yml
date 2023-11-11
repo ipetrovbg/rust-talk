@@ -1,5 +1,4 @@
 service: rust-talk
-frameworkVersion: '3'
 
 provider:
   name: aws
@@ -22,12 +21,12 @@ functions:
       path: 'target/lambda/rust_talk_rust/bootstrap'
     url:
       cors: true
-    # package:
-    #   individually: true
-    #   exclude:
-    #     - "**/**"
-    #   include:
-    #     - "package.json"
+    package:
+      individually: true
+      exclude:
+        - "**/**"
+      include:
+        - "package.json"
 
   nodeHello:
     handler: src/rust_talk_node.main
