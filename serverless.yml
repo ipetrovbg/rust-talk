@@ -49,14 +49,15 @@ functions:
       cors: true
 
 
-Resources:
-  UsersTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: Users
-      AttributeDefinitions:
-        - AttributeName: userRole
-          AttributeType: S
-      KeySchema:
-        - AttributeName: userRole
-          KeyType: HASH
+resources:
+  Resources:
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Users
+        AttributeDefinitions:
+          - AttributeName: userRole
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userRole
+            KeyType: HASH
