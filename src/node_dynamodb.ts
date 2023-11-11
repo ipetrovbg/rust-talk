@@ -35,9 +35,9 @@ const client = new DynamoDBClient({
 const functionHandler = async (): Promise<Response> => {
   const queryInput: QueryInput = {
     TableName: "Users",
-    KeyConditionExpression: "userRole = :userRole",
+    KeyConditionExpression: "#userRole = :userRole",
     ExpressionAttributeNames: {
-      userRole: "userRole",
+      "#userRole": "userRole",
     },
     ExpressionAttributeValues: {
       ":userRole": {
