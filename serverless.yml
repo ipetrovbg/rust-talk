@@ -1,0 +1,37 @@
+service: rust-talk
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: provided.al2
+  memorySize: 128
+  versionFunctions: false
+  region: eu-central-1
+
+plugins:
+  - serverless-esbuild
+  - cargo-lambda-serverless
+
+package:
+  individually: true
+
+functions:
+  hello:
+    handler: bootstrap
+    cargo:
+      path: 'target/lambda/rust_talk_rust/bootstrap'
+    url:
+      cors: true
+    # package:
+    #   individually: true
+    #   exclude:
+    #     - "**/**"
+    #   include:
+    #     - "package.json"
+
+  nodeHello:
+    handler: src/rust_talk_node.main
+    runtime: 'nodejs18.x'
+    url:
+      cors: true
+

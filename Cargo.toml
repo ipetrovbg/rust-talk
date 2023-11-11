@@ -1,0 +1,17 @@
+[package]
+name = "rust-talk"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+lambda_http = "0.8.3"
+lambda_runtime = "0.8.3"
+tokio = { version = "1", features = ["macros"] }
+tracing = { version = "0.1", features = ["log"] }
+tracing-subscriber = { version = "0.3", default-features = false, features = ["fmt"] }
+
+[[bin]]
+name = "rust_talk_rust"
+path = "src/rust_talk_rust.rs"

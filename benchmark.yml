@@ -1,0 +1,12 @@
+concurrency: 4
+iterations: 5
+rampup: 2
+
+plan:
+  - name: Nodejs Lambda
+    request:
+      url: 'https://vwz5puz6xenbha2e43puylo4si0gniil.lambda-url.eu-central-1.on.aws/' 
+
+  - name: Rust Lambda
+    request:
+      url: 'https://upvcpiwwicrf65uvea22aby6yi0rjlho.lambda-url.eu-central-1.on.aws/' 
