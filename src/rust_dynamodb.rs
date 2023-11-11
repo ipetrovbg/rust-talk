@@ -40,10 +40,11 @@ async fn function_handler(_: Request) -> Result<Response<Body>, Error> {
 
     let items = admin_query_response.items.unwrap_or(vec![]);
     let admins: Vec<User> = from_items(items)?;
+    let response_admin = serde_json::to_string(&admins)?;
 
     Ok(Response::builder()
         .status(StatusCode::OK)
-        .body(serde_json::to_string(&admins)?.into())
+        .body(response_admin.into())
         .map_err(Box::new)?)
 }
 

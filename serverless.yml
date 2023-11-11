@@ -6,9 +6,9 @@ provider:
   versionFunctions: false
   region: eu-central-1
   iamRoleStatements:
-    - Effect: "Allow"
+    - Effect: Allow
       Action:
-        - "dynamodb:Query"
+        - 'dynamodb:Query'
       Resource:
         Fn::GetAtt: [UsersTable, Arn]
 
@@ -29,32 +29,48 @@ package:
   individually: true
 
 functions:
+  # Sum Lambdas
+  rust_sum:
+    handler: bootstrap
+    runtime: provided.al2
+    cargo:
+      path: target/lambda/rust_sum/bootstrap
+    url:
+      cors: true
+
+  nodeSum:
+    handler: src/node-sum.main
+    runtime: nodejs18.x
+    url:
+      cors: true
+
+  # DynamoDB Lambdas
+  rust_dynamodb:
+    handler: bootstrap
+    runtime: provided.al2
+    cargo:
+      path: target/lambda/rust_dynamodb/bootstrap
+    url:
+      cors: true
+
+  nodeDynamodb:
+    handler: src/node-dynamodb.main
+    runtime: nodejs18.x
+    url:
+      cors: true
+
+  # Simple Lambdas
+  node_lambda:
+    handler: src/rust-talk-node.main
+    runtime: nodejs18.x
+    url:
+      cors: true
 
   rust_lambda:
     handler: bootstrap
     runtime: provided.al2
     cargo:
-      path: 'target/lambda/rust_talk_rust/bootstrap'
-    url:
-      cors: true
-
-  rust_dynamodb:
-    handler: bootstrap
-    runtime: provided.al2
-    cargo:
-      path: 'target/lambda/rust_dynamodb/bootstrap'
-    url:
-      cors: true
-
-  nodeDynamodb:
-    handler: src/node_dynamodb.main
-    runtime: 'nodejs18.x'
-    url:
-      cors: true
-
-  node_lambda:
-    handler: src/rust_talk_node.main
-    runtime: 'nodejs18.x'
+      path: target/lambda/rust_talk_rust/bootstrap
     url:
       cors: true
 
