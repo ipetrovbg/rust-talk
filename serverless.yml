@@ -61,3 +61,4 @@ resources:
         KeySchema:
           - AttributeName: userRole
             KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
