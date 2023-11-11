@@ -22,3 +22,7 @@ path = "src/rust_talk_rust.rs"
 [[bin]]
 name = "rust_dynamodb"
 path = "src/rust_dynamodb.rs"
+
+[[bin]]
+name = "rust_sum"
+path = "src/rust_sum.rs"
