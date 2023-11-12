@@ -1,26 +1,27 @@
-use lambda_http::{http::StatusCode, run, service_fn, Body, Error, Request, Response};
+use lambda_http::{http::StatusCode, run, service_fn, Error, IntoResponse, Request, Response};
 use serde::Serialize;
+use serde_json::json;
 
 #[derive(Serialize)]
-struct ResponsePayload {
+struct ResponseModel<'a> {
     sum: u64,
-    message: String,
+    message: &'a str,
 }
 
-async fn function_handler(_: Request) -> Result<Response<Body>, Error> {
+async fn function_handler(_: Request) -> Result<impl IntoResponse, Error> {
     let mut sum: u64 = 0;
     for i in 0..100_000_000 {
         sum += i;
     }
 
-    let response = ResponsePayload {
-        message: format!("The sum of 0..100,000,000 is {}", sum),
+    let response = ResponseModel {
+        message: "The sum of 0..100,000,000",
         sum,
     };
 
     let resp = Response::builder()
         .status(StatusCode::OK)
-        .body(serde_json::to_string(&response)?.into())
+        .body(json!(response).to_string())
         .map_err(Box::new)?;
 
     Ok(resp)

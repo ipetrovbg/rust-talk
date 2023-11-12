@@ -1,11 +1,7 @@
 use aws_config::meta::region::RegionProviderChain;
 use aws_sdk_dynamodb::types::AttributeValue;
 use aws_sdk_dynamodb::Client as DynamoClient;
-
-use lambda_http::{
-    http::StatusCode, run, service_fn, Body, Error, IntoResponse, Request, Response,
-};
-
+use lambda_http::{http::StatusCode, run, service_fn, Error, IntoResponse, Request, Response};
 use serde::{Deserialize, Serialize};
 use serde_dynamo::from_items;
 use serde_json::json;
@@ -56,9 +52,8 @@ async fn function_handler(_: Request) -> Result<impl IntoResponse, Error> {
     let result = match admins_result {
         Ok(admins) => {
             let admins_string = json!(admins).to_string();
-            let result = response(StatusCode::OK, admins_string)?;
 
-            result
+            response(StatusCode::OK, admins_string)?
         }
         Err(e) => {
             let error_payload = ErrorPayload {
@@ -66,8 +61,8 @@ async fn function_handler(_: Request) -> Result<impl IntoResponse, Error> {
                 error: e.to_string(),
             };
             let error_string = json!(error_payload).to_string();
-            let result = response(StatusCode::INTERNAL_SERVER_ERROR, error_string)?;
-            result
+
+            response(StatusCode::INTERNAL_SERVER_ERROR, error_string)?
         }
     };
 

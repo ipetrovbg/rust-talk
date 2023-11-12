@@ -18,12 +18,13 @@ jobs:
           profile: minimal
           override: true
 
-      - name: Release lambda
+      # Build Rust Lambdas
+      - name: Build Rust
         run: |
           pip install cargo-lambda
           cargo lambda build --release
 
-      # Deploy
+      # Build TypeScript Lambdas and Deploy
       - run: npm install
       - name: Serverless deploy
         uses: serverless/github-action@v3.1

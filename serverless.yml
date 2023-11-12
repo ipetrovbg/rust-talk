@@ -29,27 +29,10 @@ package:
   individually: true
 
 functions:
-  # Sum Lambdas
-  rust_sum:
-    handler: bootstrap
-    runtime: provided.al2
-    cargo:
-      path: target/lambda/rust_sum/bootstrap
-    url:
-      cors: true
-
+  # NodeJS Lambdas
   nodeSum:
     handler: src/node-sum.main
     runtime: nodejs18.x
-    url:
-      cors: true
-
-  # DynamoDB Lambdas
-  rust_dynamodb:
-    handler: bootstrap
-    runtime: provided.al2
-    cargo:
-      path: target/lambda/rust_dynamodb/bootstrap
     url:
       cors: true
 
@@ -59,10 +42,26 @@ functions:
     url:
       cors: true
 
-  # Hello World Lambdas
   node_lambda:
     handler: src/node-hello.main
     runtime: nodejs18.x
+    url:
+      cors: true
+
+  # Rust Lambdas
+  rust_sum:
+    handler: bootstrap
+    runtime: provided.al2
+    cargo:
+      path: target/lambda/rust_sum/bootstrap
+    url:
+      cors: true
+
+  rust_dynamodb:
+    handler: bootstrap
+    runtime: provided.al2
+    cargo:
+      path: target/lambda/rust_dynamodb/bootstrap
     url:
       cors: true
 
