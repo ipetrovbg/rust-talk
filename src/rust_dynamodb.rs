@@ -2,10 +2,13 @@ use aws_config::meta::region::RegionProviderChain;
 use aws_sdk_dynamodb::types::AttributeValue;
 use aws_sdk_dynamodb::Client as DynamoClient;
 
-use lambda_http::{http::StatusCode, run, service_fn, Body, Error, Request, Response};
+use lambda_http::{
+    http::StatusCode, run, service_fn, Body, Error, IntoResponse, Request, Response,
+};
 
 use serde::{Deserialize, Serialize};
 use serde_dynamo::from_items;
+use serde_json::json;
 
 #[derive(Serialize, Deserialize)]
 struct User {
@@ -20,12 +23,21 @@ struct User {
 }
 
 #[derive(Serialize)]
-struct ErrorPayload {
-    message: String,
+struct ErrorPayload<'a> {
+    message: &'a str,
     error: String,
 }
 
-async fn function_handler(_: Request) -> Result<Response<Body>, Error> {
+fn response(status: StatusCode, body: String) -> Result<Response<String>, Error> {
+    let response = Response::builder()
+        .status(status)
+        .body(body)
+        .map_err(Box::new)?;
+
+    Ok(response)
+}
+
+async fn function_handler(_: Request) -> Result<impl IntoResponse, Error> {
     let region_provider = RegionProviderChain::default_provider().or_else("eu-central-1");
     let config = aws_config::from_env().region(region_provider).load().await;
     let client = DynamoClient::new(&config);
@@ -34,18 +46,32 @@ async fn function_handler(_: Request) -> Result<Response<Body>, Error> {
         .query()
         .table_name("Users")
         .key_condition_expression("userRole = :userRole")
-        .expression_attribute_values(":userRole", AttributeValue::S(format!("admin")))
+        .expression_attribute_values(":userRole", AttributeValue::S("admin".to_string()))
         .send()
         .await?;
 
     let items = admin_query_response.items.unwrap_or(vec![]);
-    let admins: Vec<User> = from_items(items)?;
-    let response_admin = serde_json::to_string(&admins)?;
+    let admins_result: Result<Vec<User>, serde_dynamo::Error> = from_items(items);
 
-    Ok(Response::builder()
-        .status(StatusCode::OK)
-        .body(response_admin.into())
-        .map_err(Box::new)?)
+    let result = match admins_result {
+        Ok(admins) => {
+            let admins_string = json!(admins).to_string();
+            let result = response(StatusCode::OK, admins_string)?;
+
+            result
+        }
+        Err(e) => {
+            let error_payload = ErrorPayload {
+                message: "Error while parsing admins",
+                error: e.to_string(),
+            };
+            let error_string = json!(error_payload).to_string();
+            let result = response(StatusCode::INTERNAL_SERVER_ERROR, error_string)?;
+            result
+        }
+    };
+
+    Ok(result)
 }
 
 #[tokio::main]

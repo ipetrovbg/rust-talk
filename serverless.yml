@@ -59,9 +59,9 @@ functions:
     url:
       cors: true
 
-  # Simple Lambdas
+  # Hello World Lambdas
   node_lambda:
-    handler: src/rust-talk-node.main
+    handler: src/node-hello.main
     runtime: nodejs18.x
     url:
       cors: true
@@ -70,7 +70,7 @@ functions:
     handler: bootstrap
     runtime: provided.al2
     cargo:
-      path: target/lambda/rust_talk_rust/bootstrap
+      path: target/lambda/rust_hello/bootstrap
     url:
       cors: true
 
